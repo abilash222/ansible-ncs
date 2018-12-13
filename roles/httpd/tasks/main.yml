@@ -2,8 +2,10 @@
 - name: checking if httpd is install
   command: rpm -q httpd
   args:
+    warn: False
   register: is_installed
   failed_when: is_installed.rc > 1
+
 
 - name: is https installed?
   debug: msg='httpd apache is already installed'
