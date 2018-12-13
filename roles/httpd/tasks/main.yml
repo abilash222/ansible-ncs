@@ -31,11 +31,13 @@
     service: http
     permanent: true
     state: enabled
+  when: is_installed.rc != 0
 
 - name: Restart the firewalld service to load in the firewall changes
   service: 
     name: firewalld 
     state: restarted
+  when: is_installed.rc != 0
 
 - name: Download google html
   get_url:
