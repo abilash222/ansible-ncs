@@ -37,7 +37,7 @@
     name: firewalld 
     state: restarted
 
-- name: Download foo.conf
+- name: Download google html
   get_url:
     url: http://google.com
     dest: /var/www/html/index.html
