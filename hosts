@@ -1,0 +1,19 @@
+#The site wide list of web servers
+
+[webservers]
+192.168.x.x
+
+[webservers:vars]
+ansible_connection=ssh
+ansible_user=root
+ansible_ssh_pass=vagrant
+
+[windowsserver]
+192.168.x.x
+
+[windowsserver:vars]
+ansible_user=administrator
+ansible_password=xxxxxxxx
+ansible_connection=winrm
+ansible_winrm_transport=ntlm
+ansible_winrm_server_cert_validation=ignore
