@@ -1,0 +1,15 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "user578/rhel75"
+  config.vm.box_version = "0.0.1"
+  config.vm.hostname = "ansible-master"
+  config.ssh.insert_key = false
+
+  config.vm.network "private_network", ip: "192.168.50.4"
+
+  config.vm.synced_folder "C:\\Users\\P0102544\\vagrant\\ansible-master-rhel\\data", "/vagrant_data"
+
+   config.vm.provider "virtualbox" do |vb|
+     vb.memory = "1024"
+   end
+  
+end
