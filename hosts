@@ -9,17 +9,11 @@ ansible_user=root
 ansible_ssh_pass=vagrant
 
 [windowsserver]
-#192.168.50.6
 WIN-8FKPH13KPOG.testdomain.com
 
 [windowsserver:vars]
-#ansible_host=win2016-1.testlab.com
 ansible_user=administrator@TESTDOMAIN.COM
 ansible_password=P@ssw0rd
 ansible_connection=winrm
-#ansible_port=5985
 ansible_winrm_transport=kerberos
 ansible_winrm_server_cert_validation=ignore
-#ansible_winrm_realm=TESTLAB.COM
-#ansible_winrm_kerberos_delegation=yes
-#validate_certs=false
