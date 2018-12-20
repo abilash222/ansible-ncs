@@ -6,4 +6,3 @@
     username: "{{ rhel_username }}"
     password: "{{ rhel_password }}"
     auto_attach: true
-    state: present

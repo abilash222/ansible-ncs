@@ -21,6 +21,19 @@
     state: present
   when: is_installed.rc != 0
 
+
+- name: Copy patch file
+  copy:
+    src: "{{ role_path }}/files/httpd-2.4.37-5.fc30.aarch64.rpm"
+    dest: /httpd-2.4.37-5.fc30.aarch64.rpm
+
+
+- name: install httpd patch
+  command: rpm -i /httpd-2.4.37-5.fc30.aarch64.rpm
+  args:
+    warn: False
+  when: is_installed.rc == 0
+
 - name: ensure httpd is running
   service:
     name: httpd 
@@ -52,4 +65,3 @@
 - name: Fail if google is not in the page content
   fail:
   when: "'google' not in webpage.content"
-
