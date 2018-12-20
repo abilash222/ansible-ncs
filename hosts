@@ -12,8 +12,7 @@ ansible_ssh_pass=vagrant
 WIN-8FKPH13KPOG.testdomain.com
 
 [windowsserver:vars]
-ansible_user=administrator@TESTDOMAIN.COM
-ansible_password=P@ssw0rd
+ansible_winrm_kinit_mode=manual
 ansible_connection=winrm
 ansible_winrm_transport=kerberos
 ansible_winrm_server_cert_validation=ignore
