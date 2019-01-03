@@ -1,0 +1,95 @@
+---
+- name: Ensure Redis is installed.
+  yum:
+    name: "redis"
+    state: present
+
+#- replace:
+#    path: /etc/redis.conf
+#    regexp: '6379'
+#    replace: '1234'
+#    backup: yes
+
+- name: ensure redis is running
+  service:
+    name: redis
+    state: started
+
+#- name: Ensure Redis is running and enabled on boot.
+#  service: "name=redis-server state=started enabled=yes"
+  
+- name: Ensure git is installed.
+  yum:
+    name: "git"
+    state: present
+
+- name: Ensure pip is installed.
+  yum:
+    name: "python-pip"
+    state: present
+
+- git:
+    repo: 'https://github.com/abilash222/mydemo.git'
+    dest: /home/vagrant/python-app
+   
+
+- name: Install  python requirements
+  pip: name={{item}} state=present
+  with_items:
+    - redis
+    - flask
+
+- file:
+    path: /var/log/python-app
+    state: directory
+    mode: 0755
+
+- name: Configure python app service
+  shell: |
+   # if [ !-f /etc/init.d/python-app ]
+   # then
+      echo "start on filesystem
+      exec /usr/bin/python /home/vagrant/python-app/app.py >> /var/log/python-app/app.log
+      respawn" > /etc/init.d/python-app 
+      
+      #ln -s /etc/init/python-app.conf /etc/init.d/python-app
+   # fi
+
+- name: Open port 5000 for python app access
+  firewalld:
+    port: 5000/tcp
+    permanent: true
+    state: enabled
+
+- name: Restart the firewalld service to load in the firewall changes
+  service: 
+    name: firewalld 
+    state: restarted
+
+#- name: ensure python is running
+#  service:
+#    name: python-app
+#    state: started
+
+- name: Configure log rotation
+  shell: |
+    sudo cp /etc/cron.daily/logrotate   /etc/cron.hourly/ 
+    sudo echo "/var/log/python-app/*.log {
+      hourly
+      missingok
+      copytruncate
+      rotate 12
+      compress
+      notifempty
+    }" > /etc/logrotate.d/python-app 
+     
+- replace:
+    path: /etc/cron.hourly/logrotate
+    regexp: '/etc/logrotate.conf'
+    replace: '/etc/logrotate.d/python-app'
+    backup: yes
+
+- name: Configure log rotation
+  shell: |
+    cd / && run-parts --report /etc/cron.hourly
+    test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.hourly )
