@@ -1,11 +1,11 @@
 ---
 
-#- hosts: webservers
-#  roles:
-#  - role: subscription
-#  - role: httpd
-#  - role: deploy
-
-- hosts: windowsserver
+- hosts: webservers
   roles:
-  - role: windows
+  - role: subscription
+  - role: httpd
+  - role: deploy
+
+#- hosts: windowsserver
+#  roles:
+#  - role: windows
